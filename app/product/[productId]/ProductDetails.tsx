@@ -4,6 +4,7 @@ import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
+import { useCart } from "@/hooks/useCart";
 import { Rating } from "@mui/material";
 import { useCallback, useState } from "react";
 
@@ -32,6 +33,7 @@ const Horizontal = () => {
 };
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
+  const { handleAddProductToCart, cartProducts } = useCart();
   const [cartProduct, setCartProduct] = useState<CartProductType>({
     id: product.id,
     name: product.name,
@@ -110,7 +112,12 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         />
         <Horizontal />
         <div className="max-w-[300px]">
-          <Button label="Add To Cart" onClick={() => {}} />
+          <Button
+            label="Add To Cart"
+            onClick={() => {
+              handleAddProductToCart(cartProduct);
+            }}
+          />
         </div>
       </div>
     </div>
