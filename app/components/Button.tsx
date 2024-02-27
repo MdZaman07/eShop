@@ -22,6 +22,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
+      onClick={onClick}
       disabled={disabled}
       className={`
         disabled:opaciry-70
