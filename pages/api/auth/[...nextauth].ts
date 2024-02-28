@@ -20,7 +20,7 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: "credential",
+      name: "credentials",
       credentials: {
         email: {
           label: "email",
