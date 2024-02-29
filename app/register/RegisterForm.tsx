@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heading from "../components/Heading";
 import Input from "../components/inputs/Input";
 import { register } from "module";
@@ -12,8 +12,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { SafeUser } from "@/types";
 
-const RegisterForm = () => {
+const RegisterForm = ({ currentUser }: { currentUser: SafeUser | null }) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -27,34 +28,47 @@ const RegisterForm = () => {
     },
   });
   const router = useRouter();
+  useEffect(() => {
+    if (currentUser) {
+      router.push("/"); //or home page
+      router.refresh();
+    }
+  }, []);
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     console.log(data);
 
-    axios.post("/api/register", data).then(() => {
-      toast.success("Account Created");
-      signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      }).then((callback) => {
-        if (callback?.ok) {
-          console.log("hi");
-          router.push("/cart");
-          router.refresh();
-          toast.success("Logged In");
-        }
+    axios
+      .post("/api/register", data)
+      .then(() => {
+        toast.success("Account Created");
+        signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        }).then((callback) => {
+          if (callback?.ok) {
+            console.log("hi");
+            router.push("/cart");
+            router.refresh();
+            toast.success("Logged In");
+          }
 
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
+          if (callback?.error) {
+            toast.error(callback.error);
+          }
+        });
+      })
+      .catch(() => toast.error("Something went wrong"))
+      .finally(() => {
+        setIsLoading(false);
       });
-    });
-    // .catch(() => toast.error("Something went wrong"))
-    // .finally(() => {
-    //   setIsLoading(false);
-    // });
   };
+  if (currentUser) {
+    if (currentUser) {
+      return <p className="text-center">Logged in. Redirecting...</p>;
+    }
+  }
   return (
     <>
       <Heading title="Sign up for E-shop" />
