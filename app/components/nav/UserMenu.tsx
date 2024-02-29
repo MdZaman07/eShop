@@ -37,7 +37,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
         transition
         text-slate-700"
         >
-          <Avatar />
+          <Avatar src={currentUser?.image} />
           <AiFillCaretDown />
         </div>
         {isOpen && (
