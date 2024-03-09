@@ -5,6 +5,7 @@ import { Order } from "@prisma/client";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md";
+import OrderItem from "./OrderItem";
 
 const OrderDetails = ({ order }: { order: Order }) => {
   //   const router = useRouter();
@@ -79,6 +80,10 @@ const OrderDetails = ({ order }: { order: Order }) => {
           <div className=" justify-self-center">QTY</div>
           <div className=" justify-self-end">TOTAL</div>
         </div>
+        {order.products &&
+          order.products.map((item) => {
+            return <OrderItem key={item.id} item={item} />;
+          })}
       </div>
     </div>
   );
