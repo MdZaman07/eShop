@@ -34,7 +34,7 @@ const SetColor = ({
                     justify-center
                     ${
                       cartProduct.selectedImg.color === image.color
-                        ? "border-[1.5px]"
+                        ? "border-[1.5px]  border-teal-300"
                         : "border-none"
                     }`}
               >
