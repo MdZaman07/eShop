@@ -88,7 +88,7 @@ const CheckoutClient = () => {
             <Button
               label="View Your Orders"
               onClick={() => {
-                router.push("/order");
+                router.push("/orders");
               }}
             />
           </div>
