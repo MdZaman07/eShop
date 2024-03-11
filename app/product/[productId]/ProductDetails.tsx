@@ -109,6 +109,9 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <div>
           <span className="font-semibold">BRAND:</span> {product.brand}
         </div>
+        <div>
+          <span className="font-semibold">PRICE:</span> ${product.price}
+        </div>
         <div className={product.inStock ? "text-teal-400" : "text-rose-400"}>
           {product.inStock ? "In stock" : "Out of stock"}
         </div>

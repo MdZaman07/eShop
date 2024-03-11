@@ -148,18 +148,24 @@ const OrdersClient = ({ orders }: OrdersClientProps) => {
         <Heading title=" Orders" center />
       </div>
       <div style={{ height: 600, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 9 },
-            },
-          }}
-          pageSizeOptions={[9, 20]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
+        {rows.length > 0 ? (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 9 },
+              },
+            }}
+            pageSizeOptions={[9, 20]}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        ) : (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-center text-gray-500">No orders exist.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const NavBar = async () => {
   return (
     <div
       className="
-  sticky top-0 w-full bg-slate-200 z-30 shadow-sm"
+  sticky top-0 w-full bg-gray-200 z-30 shadow-sm"
     >
       <div className="py-4 border-b-[1px]">
         <Container>
@@ -24,7 +24,7 @@ const NavBar = async () => {
               href="/"
               className={`${redressed.className} font-bold text-2xl `}
             >
-              E-Shop
+              E-Buzz
             </Link>
             {/* className="hidden md:block" */}
             <div>

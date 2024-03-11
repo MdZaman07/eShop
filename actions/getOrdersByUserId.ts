@@ -11,6 +11,7 @@ export default async function getOrdersByUserId(userId: string) {
       },
       where: {
         userId: userId,
+        // status: "completed",
       },
     });
     return orders;
