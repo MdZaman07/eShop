@@ -51,7 +51,6 @@ const SearchBar = () => {
       >
         Search
       </button>
-      <div>hihihihihih</div>
     </div>
   );
 };
