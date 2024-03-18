@@ -46,6 +46,8 @@ export default async function getProducts(params: IProductParams) {
         },
       },
     });
+    console.log("query", query);
+    console.log("searchTerm", searchTerm);
     return products;
   } catch (error: any) {
     throw new Error(error);

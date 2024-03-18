@@ -26,8 +26,8 @@ const NavBar = async () => {
             >
               E-Buzz
             </Link>
-            {/* className="hidden md:block" */}
-            <div>
+
+            <div className="hidden md:block">
               <SearchBar />
             </div>
             <div className="flex items-center gap-8 md:gap-12">
