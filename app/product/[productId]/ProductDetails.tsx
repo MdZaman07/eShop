@@ -23,6 +23,8 @@ export type CartProductType = {
   selectedImg: SelectedImgType;
   quantity: number;
   price: number;
+  discount?: number;
+  offeredPrice?: number;
 };
 export type SelectedImgType = {
   color: string;
@@ -60,6 +62,16 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         setIsProductInCart(true);
       }
     }
+  }, [cartProducts]);
+  useEffect(() => {
+    if (!product.offer) return;
+    setCartProduct((prev) => {
+      return {
+        ...prev,
+        discount: product.offer.discount,
+        offeredPrice: product.price - product.offer.discount,
+      };
+    });
   }, [cartProducts]);
   const productRating =
     product.reviews.reduce(
@@ -110,8 +122,32 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           <span className="font-semibold">BRAND:</span> {product.brand}
         </div>
         <div>
-          <span className="font-semibold">PRICE:</span> ${product.price}
+          <span className="font-semibold ">PRICE:</span>{" "}
+          <span
+            className={`${product.offer ? "line-through text-red-500" : ""}`}
+          >
+            ${product.price}
+          </span>
         </div>
+
+        {product.offer ? (
+          <div>
+            <span className="font-semibold">Discount:</span>{" "}
+            <span className={`text-orange-500`}>${product.offer.discount}</span>
+          </div>
+        ) : (
+          <></>
+        )}
+        {product.offer ? (
+          <div>
+            <span className="font-semibold">Offer Price:</span>{" "}
+            <span className={`text-green-500`}>
+              ${product.price - product.offer.discount}
+            </span>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className={product.inStock ? "text-teal-400" : "text-rose-400"}>
           {product.inStock ? "In stock" : "Out of stock"}
         </div>

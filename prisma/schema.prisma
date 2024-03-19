@@ -35,8 +35,22 @@ model Product{
   brand String
   category String
   inStock Boolean
+ 
   images Image[]
   reviews Review[]
+  offer Offer?
+}
+model Offer{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String
+  discount Float
+  startDate DateTime @db.Date
+  endDate DateTime  @db.Date
+  productId String @db.ObjectId @unique
+   
+  product Product @relation(fields: [productId], references: [id])
+
 }
 
 model Review{

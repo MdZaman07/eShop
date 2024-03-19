@@ -3,20 +3,29 @@
 import { formatPrice } from "@/utils/formatPrice";
 import { truncateText } from "@/utils/truncateText";
 import { Rating } from "@mui/material";
+import { Product } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import CreateOfferForm from "./create-offer/[productId]/CreateOfferForm";
 
 interface ProductCardProps {
   data: any;
 }
-const ProductCard = ({ data }: ProductCardProps) => {
+const SelectProductCard = ({ data }: ProductCardProps) => {
   const router = useRouter();
+  const [isProductSelected, setIsProductSelected] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
   const productRating =
     data.reviews.reduce((accum: number, item: any) => item.rating + accum, 0) /
     data.reviews.length;
+  const handleProductClick = (productId: String) => {
+    setIsProductSelected(true);
+    router.push(`/admin/offer-product/create-offer/${productId}`);
+  };
   return (
     <div
-      onClick={() => router.push(`/product/${data.id}`)}
+      onClick={() => handleProductClick(data.id)}
       className="col-span-1 cursor-pointer border-[1,2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition hover:scale-105 text-center text-sm "
     >
       <div
@@ -27,11 +36,6 @@ const ProductCard = ({ data }: ProductCardProps) => {
       w-full
       gap-1"
       >
-        {data.offer && (
-          <div className="font-bold text-green-500 bg-gray-100 rounded-md px-2 py-1 inline-block">
-            Offer!!
-          </div>
-        )}
         <div className="aspect-square overflow-hidden relative w-full">
           <Image
             fill
@@ -45,21 +49,10 @@ const ProductCard = ({ data }: ProductCardProps) => {
           <Rating value={productRating} readOnly />
         </div>
         <div>{data.reviews.length} reviews</div>
-        <div
-          className={`font-semibold ${
-            data.offer ? "line-through text-red-500" : ""
-          }`}
-        >
-          {formatPrice(data.price)}
-        </div>
-        {data.offer && (
-          <div className="font-semibold text-green-500">
-            {formatPrice(data.price - data.offer.discount)}
-          </div>
-        )}
+        <div className="font-semibold">{formatPrice(data.price)}</div>
       </div>
     </div>
   );
 };
 
-export default ProductCard;
+export default SelectProductCard;

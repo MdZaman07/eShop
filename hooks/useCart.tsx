@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast";
 type CartContextType = {
   cartTotalQty: number;
   cartTotalAmount: number;
+  cartTotalDiscount: number;
   cartProducts: CartProductType[] | null;
   handleAddProductToCart: (product: CartProductType) => void;
   handleRemoveProductFromCart: (product: CartProductType) => void;
@@ -29,6 +30,7 @@ interface Props {
 
 export const CartContextProvider = (props: Props) => {
   const [cartTotalAmount, SetCartTotalAmount] = useState(0);
+  const [cartTotalDiscount, setCartTotalDiscount] = useState(0);
   const [cartTotalQty, setCartTotalQty] = useState(0);
   const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(
     null
@@ -63,13 +65,20 @@ export const CartContextProvider = (props: Props) => {
 
   useEffect(() => {
     const getTotals = () => {
+      let totalDiscount = 0;
       if (cartProducts) {
         const { total, qty } = cartProducts?.reduce(
           (acc, item) => {
-            const itemTotal = item.price * item.quantity;
-
-            acc.total += itemTotal;
-            acc.qty += item.quantity;
+            if (item.offeredPrice && item.discount) {
+              const itemTotal = item.offeredPrice * item.quantity;
+              acc.total += itemTotal;
+              totalDiscount += item.discount * item.quantity;
+              acc.qty += item.quantity;
+            } else {
+              const itemTotal = item.price * item.quantity;
+              acc.total += itemTotal;
+              acc.qty += item.quantity;
+            }
 
             return acc;
           },
@@ -78,6 +87,7 @@ export const CartContextProvider = (props: Props) => {
             qty: 0,
           }
         );
+        setCartTotalDiscount(totalDiscount);
         setCartTotalQty(qty);
         SetCartTotalAmount(total);
       }
@@ -159,6 +169,7 @@ export const CartContextProvider = (props: Props) => {
   const value = {
     cartTotalQty,
     cartTotalAmount,
+    cartTotalDiscount,
     cartProducts,
     handleAddProductToCart,
     handleRemoveProductFromCart,

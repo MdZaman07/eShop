@@ -21,7 +21,7 @@ const ItemContent = ({ item }: ItemContentProps) => {
     <div
       className="
     grid
-    grid-cols-5
+    grid-cols-7
     text-xs
     md:text-sm
     gap-4
@@ -62,6 +62,16 @@ const ItemContent = ({ item }: ItemContentProps) => {
         </div>
       </div>
       <div className="justify-self-center">{formatPrice(item.price)}</div>
+      <div className={`justify-self-center ${item.discount && "text-red-500"}`}>
+        {item.discount ? formatPrice(item.discount) : formatPrice(0)}
+      </div>
+      <div
+        className={`justify-self-center ${item.discount && "text-green-500"}`}
+      >
+        {item.offeredPrice
+          ? formatPrice(item.offeredPrice)
+          : formatPrice(item.price)}
+      </div>
       <div className="justify-self-center">
         <SetQuantity
           cartCounter={true}
@@ -73,10 +83,12 @@ const ItemContent = ({ item }: ItemContentProps) => {
         />
       </div>
       <div
-        className="justify-self-end
-      font-semibold"
+        className={`justify-self-end
+      font-semibold ${item.discount && "text-green-500"}`}
       >
-        {formatPrice(item.price * item.quantity)}
+        {item.offeredPrice
+          ? formatPrice(item.offeredPrice * item.quantity)
+          : formatPrice(item.price * item.quantity)}
       </div>
     </div>
   );

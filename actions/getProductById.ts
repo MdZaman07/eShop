@@ -22,6 +22,7 @@ export default async function getProductsById(params: IParams) {
             createdDate: "desc",
           },
         },
+        offer: true,
       },
     });
 

@@ -13,7 +13,8 @@ interface CartClientProps {
   currentUser: SafeUser | null;
 }
 const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
-  const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
+  const { cartProducts, handleClearCart, cartTotalAmount, cartTotalDiscount } =
+    useCart();
   const router = useRouter();
   if (!cartProducts || cartProducts.length === 0) {
     return (
@@ -36,7 +37,7 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
       <Heading title="Shopping Cart" center />
       <div
         className="grid
-    grid-cols-5
+    grid-cols-7
     text-xs
     gap-4
     pb-2
@@ -45,6 +46,8 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
       >
         <div className="col-span-2 justify-self-start">PRODUCT</div>
         <div className="justify-self-center">PRICE</div>
+        <div className="justify-self-center">DISCOUNT</div>
+        <div className="justify-self-center">Final Price</div>
         <div className="justify-self-center">QUANTITY</div>
         <div className="justify-self-end">TOTAL</div>
         <div></div>
@@ -71,6 +74,17 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
         </div>
 
         <div className="text-sm flex flex-col gap-1 items-start">
+          <div className="flex justify-between w-full text-base font-semibold">
+            <span>Total Amount</span>
+            <span>{formatPrice(cartTotalDiscount + cartTotalAmount)}</span>
+          </div>
+          <div className="flex justify-between w-full text-base font-semibold">
+            <span>Total Discount</span>
+            <span className="text-red-500">
+              {formatPrice(cartTotalDiscount)}
+            </span>
+          </div>
+          <hr className="w-full border-t-[1.5px] border-slate-200" />
           <div className="flex justify-between w-full text-base font-semibold">
             <span>Subtotal</span>
             <span>{formatPrice(cartTotalAmount)}</span>
