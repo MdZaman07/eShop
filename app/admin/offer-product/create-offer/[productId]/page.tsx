@@ -2,6 +2,9 @@ import getProductsById from "@/actions/getProductById";
 import ProductCard from "@/app/components/products/ProductCard";
 import React from "react";
 import CreateOfferForm from "./CreateOfferForm";
+import Container from "@/app/components/Container";
+import FormWrap from "@/app/components/FormWrap";
+import ProductOfferCard from "./ProductOfferCard";
 
 interface IParams {
   productId?: string;
@@ -12,11 +15,13 @@ const CreateOffer = async ({ params }: { params: IParams }) => {
 
   return (
     <div className="p-8">
-      <div className="flex justify-center items-center w-80 h-80">
-        <ProductCard data={product} />
+      <Container>
+        <FormWrap>
+          <ProductOfferCard data={product} />
 
-        <CreateOfferForm product={product} />
-      </div>
+          <CreateOfferForm product={product}></CreateOfferForm>
+        </FormWrap>
+      </Container>
     </div>
   );
 };

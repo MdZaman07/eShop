@@ -15,7 +15,7 @@ const ProductCard = ({ data }: ProductCardProps) => {
     data.reviews.reduce((accum: number, item: any) => item.rating + accum, 0) /
     data.reviews.length;
   return (
-    <div className="col-span-1 border-[1,2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition text-center text-sm ">
+    <div className=" col-span-1 border-[1,2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition text-center text-sm ">
       <div
         className="
       flex

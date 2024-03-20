@@ -3,10 +3,11 @@ import { SelectButton, SelectButtonChangeEvent } from "primereact/selectbutton";
 import React, { useState } from "react";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
-import { Product } from "../page";
+
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/dist/client/components/navigation";
 import queryString from "query-string";
+import { Product } from "@/libs/types";
 
 const OfferChoice = ({ products }: { products: Product[] }) => {
   const [selectedOption, setSelectedOption] = useState("all");
@@ -48,7 +49,7 @@ const OfferChoice = ({ products }: { products: Product[] }) => {
   };
 
   return (
-    <div className="mt-10 mb-10 card flex justify-content-center">
+    <div className="mt-5 mb-10 card flex justify-content-center">
       <SelectButton
         value={selectedOption}
         options={options}

@@ -8,14 +8,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import prisma from "@/libs/prismadb";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const CreateOfferForm = ({ product }: { product: any }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const [offerCreated, setIsOfferCreated] = useState(false);
+  const [isOfferCreated, setIsOfferCreated] = useState(false);
   const {
     register,
     handleSubmit,
@@ -32,6 +32,13 @@ const CreateOfferForm = ({ product }: { product: any }) => {
       productId: "",
     },
   });
+  useEffect(() => {
+    if (isOfferCreated) {
+      reset();
+
+      setIsOfferCreated(false);
+    }
+  }, [isOfferCreated]);
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
     setIsLoading(true);
@@ -41,8 +48,8 @@ const CreateOfferForm = ({ product }: { product: any }) => {
       .post("/api/offer", offer)
       .then(() => {
         toast.success("Offer created");
-        setIsOfferCreated(true);
-        router.refresh();
+        // setIsOfferCreated(true);
+        // router.refresh();
       })
       .catch((error) => {
         toast.error("Error creating offer");
@@ -51,18 +58,33 @@ const CreateOfferForm = ({ product }: { product: any }) => {
         const offered = await axios.get(`/api/offer/${product.id}`);
         console.log(offered.data);
 
-        await axios.put("/api/product", {
-          id: product.id,
-          offerId: offered.data.id,
-        });
+        await axios
+          .put("/api/product", {
+            id: product.id,
+            offerId: offered.data.id,
+          })
+          .then(() => {
+            toast.success("Product added to offer");
 
-        setIsLoading(false);
+            setIsOfferCreated(true);
+            router.refresh();
+          })
+          .catch((error) => {
+            toast.error("Error adding Product to offer");
+          })
+          .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+              router.push("/admin/offer-product");
+            }, 1000);
+            //here
+          });
       });
 
     //add offer to product
   };
   return (
-    <div>
+    <>
       <Heading title="Create Offer" />
       <Input
         id="name"
@@ -111,7 +133,7 @@ const CreateOfferForm = ({ product }: { product: any }) => {
         label={isLoading ? "Loading..." : "Create Offer"}
         onClick={handleSubmit(onSubmit)}
       />
-    </div>
+    </>
   );
 };
 

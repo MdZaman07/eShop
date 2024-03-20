@@ -6,6 +6,7 @@ import ProductCard from "@/app/components/products/ProductCard";
 import React, { useState } from "react";
 import SelectProductCard from "./SelectProduct";
 import { useRouter } from "next/navigation";
+import Heading from "@/app/components/Heading";
 
 interface OfferProductProps {
   searchParams: IProductParams;
@@ -22,12 +23,15 @@ const OfferProduct = async ({ searchParams }: OfferProductProps) => {
 
   return (
     <div className="p-8">
+      <div className="mb-10">
+        <Heading title="Select a Product to offer!" center />
+      </div>
       <Container>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
           {products.map((product: any) => {
             return (
               <div key={product.id}>
-                <SelectProductCard data={product} />
+                <SelectProductCard product={product} />
               </div>
             );
           })}

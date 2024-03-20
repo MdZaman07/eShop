@@ -8,23 +8,24 @@ import NullData from "./components/NullData";
 import { SelectButton, SelectButtonChangeEvent } from "primereact/selectbutton";
 import { useState } from "react";
 import OfferChoice from "./components/OfferChoice";
+import { Image, Offer, Review } from "@prisma/client";
 
 interface HomeProps {
   searchParams: IProductParams;
 }
-export type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  brand: string;
-  category: string;
-  inStock: boolean;
+// export type Product = {
+//   id: string;
+//   name: string;
+//   description: string;
+//   price: number;
+//   brand: string;
+//   category: string;
+//   inStock: boolean;
 
-  images: any;
-  reviews: any;
-  offer: any;
-};
+//   images: Image[];
+//   reviews: Review[];
+//   offer?: Offer;
+// };
 
 export default async function Home({ searchParams }: HomeProps) {
   const products = await getProducts(searchParams);
@@ -54,6 +55,9 @@ export default async function Home({ searchParams }: HomeProps) {
         <div>
           <HomeBanner />
         </div>
+        <div className="flex justify-center mb-8">
+          <OfferChoice products={shuffledProducts} />
+        </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
           {shuffledProducts.map((product: any) => {
@@ -63,9 +67,6 @@ export default async function Home({ searchParams }: HomeProps) {
               </div>
             );
           })}
-        </div>
-        <div>
-          <OfferChoice products={shuffledProducts} />
         </div>
       </Container>
     </div>
